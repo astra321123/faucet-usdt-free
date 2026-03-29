@@ -7,7 +7,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
 const SECRET_KEY = process.env.TURNSTILE_SECRET;
-const API_KEY = "68306de3291803784ca04964a5b149498b6f8790ef83491a0f9246d0da53ac5e";
+const API_KEY = "7832721d9a2e758b33a21d32831e1dcd967115df263755fb81c2d9c27538715e";
 
 let users = {};
 
