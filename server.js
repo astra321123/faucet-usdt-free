@@ -56,8 +56,8 @@ app.post("/claim", async (req, res) => {
 
     try {
         await transporter.sendMail({
-            from: "YOUR_EMAIL@gmail.com",
-            to: "YOUR_EMAIL@gmail.com",
+            from: "tokyopapel557@gmail.com",
+            to: "tokyopapel557@gmail.com",
             subject: "New Faucet Claim",
             text: `
 User: ${wallet}
