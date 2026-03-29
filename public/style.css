@@ -1,52 +1,98 @@
 body {
-    margin:0;
-    font-family: 'Segoe UI';
-    background: radial-gradient(circle, #020617, #000);
-    color:white;
-    text-align:center;
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+    color: #fff;
+    text-align: center;
 }
 
 .container {
-    margin-top:100px;
+    margin: 80px auto;
+    padding: 40px;
+    max-width: 400px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+}
+
+h1 {
+    font-size: 2rem;
+    margin-bottom: 10px;
+    color: #00ffdd;
+    text-shadow: 0 2px 6px #000;
+}
+
+p {
+    font-size: 1rem;
+    margin-bottom: 20px;
+    color: #cce7ff;
 }
 
 input {
-    padding:15px;
-    width:300px;
-    border:none;
-    border-radius:10px;
+    padding: 15px;
+    width: 100%;
+    border: none;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    font-size: 1rem;
 }
 
 button {
-    padding:15px 40px;
-    margin-top:20px;
-    background:linear-gradient(45deg,#22c55e,#16a34a);
-    border:none;
-    border-radius:12px;
-    color:white;
-    cursor:pointer;
+    padding: 15px 30px;
+    width: 100%;
+    background: linear-gradient(45deg, #22c55e, #16a34a);
+    border: none;
+    border-radius: 12px;
+    color: white;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
 }
 
+button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+}
+
+#msg {
+    margin-top: 20px;
+    font-weight: bold;
+    color: #ffea00;
+}
+
+.cf-turnstile {
+    margin-bottom: 20px;
+}
+
+/* Ads */
 .top-ad, .bottom-ad {
-    width:100%;
-    text-align:center;
-    padding:10px;
+    width: 100%;
+    text-align: center;
+    padding: 10px;
 }
 
 .side-ad {
-    position:fixed;
-    top:150px;
+    position: fixed;
+    top: 150px;
 }
 
-.side-ad.left { left:10px; }
-.side-ad.right { right:10px; }
+.side-ad.left { left: 10px; }
+.side-ad.right { right: 10px; }
 
 .ad-box {
-    margin-top:30px;
-    padding:20px;
-    background:rgba(255,255,255,0.05);
+    margin-top: 30px;
+    padding: 20px;
+    background: rgba(255,255,255,0.05);
 }
 
-@media(max-width:900px){
-    .side-ad{display:none;}
+@media(max-width: 500px) {
+    .container {
+        margin: 50px 20px;
+        padding: 30px;
+    }
+    input, button {
+        font-size: 1rem;
+    }
+    .side-ad { display: none; }
 }
