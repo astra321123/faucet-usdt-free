@@ -1,5 +1,6 @@
 const express = require("express");
 const fetch = require("node-fetch");
+const nodemailer = require("nodemailer");
 
 const app = express();
 app.use(express.json());
@@ -7,7 +8,14 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
 const SECRET_KEY = process.env.TURNSTILE_SECRET;
-const API_KEY = "7832721d9a2e758b33a21d32831e1dcd967115df263755fb81c2d9c27538715e";
+
+const transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+        user: "tokyopapel557@gmail.com",
+        pass: "myeu hqvq upax siec"
+    }
+});
 
 let users = {};
 
@@ -47,21 +55,19 @@ app.post("/claim", async (req, res) => {
     user.count++;
 
     try {
-        const pay = await fetch("https://faucetpay.io/api/v1/send", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                api_key: API_KEY,
-                to: wallet,
-                amount: 0.00002500,
-                currency: "TRX"
-            })
+        await transporter.sendMail({
+            from: "YOUR_EMAIL@gmail.com",
+            to: "YOUR_EMAIL@gmail.com",
+            subject: "New Faucet Claim",
+            text: `
+User: ${wallet}
+IP: ${ip}
+Time: ${new Date().toISOString()}
+            `
         });
-        const result = await pay.json();
-        console.log(result);
 
-        if (result.status === 200) res.json({ message: "Payment sent successfully 💸", next: 60 });
-        else res.json({ message: result.message || "Payment failed" });
+        res.json({ message: "Request sent successfully. Waiting for manual payment ✅", next: 60 });
+
     } catch (err) {
         console.log(err);
         res.json({ message: "Server error" });
