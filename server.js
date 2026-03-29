@@ -65,7 +65,7 @@ app.post("/claim", async (req, res) => {
                 api_key: API_KEY,
                 to: username,
                 amount: 0.00002500,
-                currency: "USDT"
+                currency: "TRON"
             })
         });
 
