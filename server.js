@@ -6,7 +6,7 @@ app.use(express.json());
 app.use(express.static("public"));
 
 const SECRET_KEY = process.env.TURNSTILE_SECRET;
-const API_KEY = process.env.FAUCETPAY_KEY;
+const API_KEY = "68306de3291803784ca04964a5b149498b6f8790ef83491a0f9246d0da53ac5e"
 
 let users = {};
 
