@@ -64,8 +64,17 @@ app.post("/claim", async (req, res) => {
             })
         });
 
-        res.json({message:"تم الدفع 💸"});
-    } catch {
+        const result = await pay.json();
+        console.log(result);
+
+        if (result.status === 200) {
+            res.json({message:"تم الدفع 💸"});
+        } else {
+            res.json({message: result.message || "فشل الدفع"});
+        }
+
+    } catch (err) {
+        console.log(err);
         res.json({message:"خطأ بالسيرفر"});
     }
 });
