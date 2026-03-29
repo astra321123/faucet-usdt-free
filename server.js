@@ -5,7 +5,6 @@ const app = express();
 app.use(express.json());
 app.use(express.static("public"));
 
-// خليه متغيرات بيئية على Railway
 const SECRET_KEY = process.env.TURNSTILE_SECRET;
 const API_KEY = process.env.FAUCETPAY_KEY;
 
@@ -15,9 +14,12 @@ app.post("/claim", async (req, res) => {
 
     const ip = req.ip;
     const now = Date.now();
-    const {wallet, token} = req.body;
+    const {username, token} = req.body;
 
-    // تحقق كابتشا
+    if (!username) {
+        return res.json({message:"Enter FaucetPay username or email"});
+    }
+
     const captcha = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", {
         method:"POST",
         headers:{"Content-Type":"application/x-www-form-urlencoded"},
@@ -42,11 +44,14 @@ app.post("/claim", async (req, res) => {
     }
 
     if (user.count >= 100) {
-        return res.json({message:"انتهى الصنبور ارجع بعد ساعتين"});
+        return res.json({message:"Faucet limit reached. Come back later"});
     }
 
     if (now - user.last < 60000) {
-        return res.json({message:"انتظر دقيقة"});
+        return res.json({
+            message:"Wait 60 seconds",
+            remaining: Math.ceil((60000 - (now - user.last))/1000)
+        });
     }
 
     user.last = now;
@@ -58,7 +63,7 @@ app.post("/claim", async (req, res) => {
             headers:{"Content-Type":"application/json"},
             body: JSON.stringify({
                 api_key: API_KEY,
-                to: wallet,
+                to: username,
                 amount: 0.00002500,
                 currency: "USDT"
             })
@@ -68,17 +73,19 @@ app.post("/claim", async (req, res) => {
         console.log(result);
 
         if (result.status === 200) {
-            res.json({message:"تم الدفع 💸"});
+            res.json({
+                message:"Payment sent successfully 💸",
+                next:60
+            });
         } else {
-            res.json({message: result.message || "فشل الدفع"});
+            res.json({message: result.message || "Payment failed"});
         }
 
     } catch (err) {
         console.log(err);
-        res.json({message:"خطأ بالسيرفر"});
+        res.json({message:"Server error"});
     }
 });
 
-// استخدم PORT من Railway
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
